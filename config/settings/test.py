@@ -7,7 +7,6 @@ Test settings
 
 from .common import *  # noqa
 
-
 # DEBUG
 # ------------------------------------------------------------------------------
 # Turn debug off so tests run faster
@@ -42,7 +41,6 @@ CACHES = {
 # TESTING
 # ------------------------------------------------------------------------------
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
-
 
 # PASSWORD HASHING
 # ------------------------------------------------------------------------------
