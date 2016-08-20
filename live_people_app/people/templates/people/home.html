@@ -2,12 +2,16 @@
 
 {% block content %}
    <h1>people management</h1>
-   <div id="app">
-      <div v-for="person in people">
-         {% verbatim %}
-         <h3>{{ person.fields.first_name }} {{ person.fields.last_name }}</h3>
-         <p><span>dob: {{ person.fields.dob }}</span> <span>zip: {{ person.fields.zip }}</span></p>
-         {% endverbatim %}
+   <div id="app" v-cloak>
+      <div class="card-columns">
+         <div class="card" v-for="person in people">
+            <div class="card-block">
+               {% verbatim %}
+               <h3>{{ person.fields.first_name }} {{ person.fields.last_name }}</h3>
+               <p><span>dob: {{ person.fields.dob }}</span> <span>zip: {{ person.fields.zip }}</span></p>
+               {% endverbatim %}
+            </div>
+         </div>
       </div>
    </div>
 
