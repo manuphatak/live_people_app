@@ -37,7 +37,7 @@ DJANGO_APPS = (
     'django.contrib.admin',
 )
 THIRD_PARTY_APPS = (
-
+    'channels',
 )
 
 # Apps specific for this project go here.
@@ -203,7 +203,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # SLUGLIFIER
@@ -216,5 +215,14 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
 
-
-# Your common stuff: Below this line define 3rd party library settings
+# CHANNELS
+# ------------------------------------------------------------------------------
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': ['{0}/{1}'.format(env('REDIS_URL'), 2)]
+        },
+        'ROUTING': 'config.routing.channel_routing'
+    }
+}

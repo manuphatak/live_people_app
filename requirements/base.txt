@@ -31,3 +31,7 @@ pytz~=2016.6.1
 # Redis support
 django-redis~=4.4.4
 redis~=2.10.0
+
+# channels
+channels~=0.17.2
+asgi-redis~=0.14.0
