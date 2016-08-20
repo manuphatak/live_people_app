@@ -1,0 +1,5 @@
+[run]
+include = live_people_app/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin
