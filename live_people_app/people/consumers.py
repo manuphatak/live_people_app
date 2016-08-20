@@ -15,9 +15,6 @@ class AppDemultiplexer(WebsocketDemultiplexer):
     def connection_groups(self, **kwargs):
         return ['App']
 
-    def connect(self, message, **kwargs):
-        self.send('Hello', 'world')
-
 
 class PersonBinding(WebsocketBinding):
     stream = 'Person'

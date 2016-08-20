@@ -2,8 +2,13 @@
 
 {% block content %}
    <h1>people management</h1>
-   {% for person in people %}
-      <div>{{ person.name }} {{ person.dob }} {{ person.zip }}</div>
-   {% endfor %}
+   <div id="app">
+      <div v-for="person in people">
+         {% verbatim %}
+         <h3>{{ person.fields.first_name }} {{ person.fields.last_name }}</h3>
+         <p><span>dob: {{ person.fields.dob }}</span> <span>zip: {{ person.fields.zip }}</span></p>
+         {% endverbatim %}
+      </div>
+   </div>
 
 {% endblock content %}
