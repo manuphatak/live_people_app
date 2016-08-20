@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+   <h1>people management</h1>
+   {% for person in people %}
+      <div>{{ person.name }} {{ person.dob }} {{ person.zip }}</div>
+   {% endfor %}
+
+{% endblock content %}
