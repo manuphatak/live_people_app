@@ -5,10 +5,18 @@
    <div id="app" v-cloak>
       <div class="card-columns">
          <div class="card" v-for="person in people">
+            {% verbatim %}
+            <h2 class="card-header">{{ person.fields.first_name }} {{ person.fields.last_name }}</h2>
+            {% endverbatim %}
             <div class="card-block">
                {% verbatim %}
-               <h3>{{ person.fields.first_name }} {{ person.fields.last_name }}</h3>
-               <p><span>dob: {{ person.fields.dob }}</span> <span>zip: {{ person.fields.zip }}</span></p>
+               <dl class="row">
+                  <dt class="col-xs-4">dob</dt>
+                  <dd class="col-xs-8">{{ person.fields.dob }}</dd>
+
+                  <dt class="col-xs-4">zip</dt>
+                  <dd class="col-xs-8">{{ person.fields.zip }}</dd>
+               </dl>
                {% endverbatim %}
             </div>
          </div>
