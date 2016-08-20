@@ -7,6 +7,9 @@ Local settings
 - Add Django Debug Toolbar
 - Add django-extensions as app
 """
+from environ import Env
+
+Env.read_env('.env')
 
 from .common import *  # noqa
 import socket
@@ -21,7 +24,7 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
-SECRET_KEY = env('DJANGO_SECRET_KEY', default='(tl#ub#jptr(9_uglaxn00sb2l1oh)qt0+x6uo4omz3s*d!eb-')
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # Mail settings
 # ------------------------------------------------------------------------------
