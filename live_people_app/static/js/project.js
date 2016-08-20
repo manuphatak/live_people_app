@@ -2,6 +2,7 @@ new Vue({
   el: '#app',
   data: {
     people: [],
+    newPerson: {},
   },
   init: function() {
     this.ws = new AppSocket();
@@ -15,16 +16,42 @@ new Vue({
     this.ws.open();
   },
   methods: {
+    createPerson: function() {
+      this.sendPersonAction(null, 'create', this.newPerson);
+      this.newPerson = {};
+    },
+    _createPerson: function(person) {
+      console.log("person", person);
+      this.people.push(person);
+    },
     _setPeople: function(people) {
-      console.log("people", people);
-      this.$set('people', people);
-      console.log("this.people", this.people);
+      this.$set('people', people.map(function(person) {
+        person.fields.created = new Date(person.fields.created);
+        return person;
+      }));
+    },
+    sendPersonAction: function(pk, action, data) {
+      this.ws.send('Person', { pk: pk, action: action, data: data });
+    },
+    _getPerson: function(payload) {
+      const person = {
+        pk: payload.pk,
+        model: payload.model,
+        fields: payload.data,
+      };
+      person.fields.created = new Date(person.fields.created);
+      return person;
     },
     _handleSyncAction: function(payload) {
-      console.log("payload", payload);
       switch (payload.action) {
         case 'list':
           return this._setPeople(payload.data);
+      }
+    },
+    _handlePersonAction: function(payload) {
+      switch (payload.action) {
+        case 'create':
+          return this._createPerson(this._getPerson(payload));
       }
     },
     _handleSocketOpen: function() {
@@ -34,6 +61,8 @@ new Vue({
       switch (message.stream) {
         case 'Sync':
           return this._handleSyncAction(message.payload);
+        case 'Person':
+          return this._handlePersonAction(message.payload);
       }
     },
     _handleSocketReconnectstart: function() {},
