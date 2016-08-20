@@ -13,7 +13,9 @@ from __future__ import absolute_import, unicode_literals
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (live_people_app/config/settings/common.py - 3 = live_people_app/)
+""":type : environ.Path"""
 APPS_DIR = ROOT_DIR.path('live_people_app')
+""":type : environ.Path"""
 
 env = environ.Env()
 
@@ -35,16 +37,16 @@ DJANGO_APPS = (
     'django.contrib.admin',
 )
 THIRD_PARTY_APPS = (
-    'crispy_forms',  # Form layouts
-    'allauth',  # registration
-    'allauth.account',  # registration
-    'allauth.socialaccount',  # registration
+    # 'crispy_forms',  # Form layouts
+    # 'allauth',  # registration
+    # 'allauth.account',  # registration
+    # 'allauth.socialaccount',  # registration
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     # custom users app
-    'live_people_app.users.apps.UsersConfig',
+    # 'live_people_app.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
 
@@ -165,7 +167,7 @@ TEMPLATES = [
 ]
 
 # See: http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -209,19 +211,19 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'live_people_app.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'live_people_app.users.adapters.SocialAccountAdapter'
+# ACCOUNT_AUTHENTICATION_METHOD = 'username'
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+#
+# ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
+# ACCOUNT_ADAPTER = 'live_people_app.users.adapters.AccountAdapter'
+# SOCIALACCOUNT_ADAPTER = 'live_people_app.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model
-AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = 'users:redirect'
-LOGIN_URL = 'account_login'
+# AUTH_USER_MODEL = 'users.User'
+# LOGIN_REDIRECT_URL = 'users:redirect'
+# LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'

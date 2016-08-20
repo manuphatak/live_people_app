@@ -16,8 +16,8 @@ urlpatterns = [
     url(settings.ADMIN_URL, include(admin.site.urls)),
 
     # User management
-    url(r'^users/', include('live_people_app.users.urls', namespace='users')),
-    url(r'^accounts/', include('allauth.urls')),
+    # url(r'^users/', include('live_people_app.users.urls', namespace='users')),
+    # url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
 
