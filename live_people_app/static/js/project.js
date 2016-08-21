@@ -27,6 +27,10 @@ new Vue({
     deletePerson: function(person) {
       this.sendPersonAction(person.pk, 'delete');
     },
+    _deletePerson: function(person) {
+      var target = this.people.find(function(p) {return p.pk === person.pk;});
+      this.people.$remove(target);
+    },
     toggleEdit: function(person, force) {
       var value = force === undefined ? !person.editing : force;
       Vue.set(person, 'editing', value);
@@ -49,21 +53,6 @@ new Vue({
       person.fields.created = new Date(person.fields.created);
       return person;
     },
-    _handleSyncAction: function(payload) {
-      switch (payload.action) {
-        case 'list':
-          return this._setPeople(payload.data);
-      }
-    },
-    _handlePersonAction: function(payload) {
-      switch (payload.action) {
-        case 'create':
-          return this._createPerson(this._getPerson(payload));
-      }
-    },
-    _handleSocketOpen: function() {
-      this.ws.send('Sync', { action: 'list' })
-    },
     _handleSocketMessage: function(message) {
       switch (message.stream) {
         case 'Sync':
@@ -71,6 +60,27 @@ new Vue({
         case 'Person':
           return this._handlePersonAction(message.payload);
       }
+    },
+    _handleSyncAction: function(payload) {
+      switch (payload.action) {
+        case 'list':
+          return this._setPeople(payload.data);
+        default:
+          return console.error('unknown action=%s', payload.action);
+      }
+    },
+    _handlePersonAction: function(payload) {
+      switch (payload.action) {
+        case 'create':
+          return this._createPerson(this._getPerson(payload));
+        case 'delete':
+          return this._deletePerson(this._getPerson(payload));
+        default:
+          return console.error('unknown action=%s', payload.action);
+      }
+    },
+    _handleSocketOpen: function() {
+      this.ws.send('Sync', { action: 'list' })
     },
     _handleSocketReconnectstart: function() {},
     _handleSocketClose: function() {},
