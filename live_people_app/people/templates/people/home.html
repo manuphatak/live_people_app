@@ -6,8 +6,7 @@
       <h1>
          people
 
-         {% verbatim %}
-         <span :class="['tag tag-default connection', connection]">{{ connection }}</span> {% endverbatim %}
+         <span :class="['tag tag-default connection', connection]" v-text="connection"></span>
       </h1>
       <form @submit.prevent="createPerson" class="form-inline">
          {{ new_person_form.as_vue }}
@@ -22,9 +21,9 @@
             track-by="pk"
          >
             <div class="card-header clearfix">
-               {% verbatim %}
-               <h2 class="h3 pull-xs-left">{{ person.fields.first_name }} {{ person.fields.last_name }}</h2>
-               {% endverbatim %}
+               <h2 class="h3 pull-xs-left">
+                  <span v-text="person.fields.first_name"></span> <span v-text="person.fields.last_name"></span>
+               </h2>
 
                <div class="dropdown pull-xs-right">
                   <button class="btn btn-sm btn-drop" type="button" data-toggle="dropdown">▼</button>
@@ -40,15 +39,13 @@
             </div>
 
             <div class="card-block" v-show="!person.editing">
-               {% verbatim %}
                <dl class="row">
                   <dt class="col-xs-4">dob</dt>
-                  <dd class="col-xs-8">{{ person.fields.dob }}</dd>
+                  <dd class="col-xs-8" v-text="person.fields.dob"></dd>
 
                   <dt class="col-xs-4">zip</dt>
-                  <dd class="col-xs-8">{{ person.fields.zip }}</dd>
+                  <dd class="col-xs-8" v-text="person.fields.zip"></dd>
                </dl>
-               {% endverbatim %}
             </div>
 
             <form @submit.prevent="updatePerson(person)" class="card-block" v-show="person.editing">
