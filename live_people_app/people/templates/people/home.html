@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+   <div id="app" v-cloak>
+      <h1>
+         people
+
+         <span :class="['tag tag-default connection', connection]" v-text="connection"></span>
+      </h1>
+
+      <div class="alert alert-info alert-dismissible fade in" role="alert" v-if="notify">
+         <button type="button" class="close" @click="dismissNotification" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+         </button>
+         <strong>Database Reset!</strong> Your data is updated automatically!  Database intentionally wiped every few minutes.
+      </div>
+
+      <form @submit.prevent="createPerson" class="form-inline">
+         {{ new_person_form.as_vue }}
+         <button class="btn btn-sm btn-outline-primary btn-add">add</button>
+      </form>
+
+
+      <div class="card-columns">
+         <div
+            class="card"
+            v-for="person in people | orderBy '-fields.created' 'fields.last_name' 'fields.first_name'"
+            track-by="pk"
+         >
+            <div class="card-header clearfix">
+               <h2 class="h3 pull-xs-left">
+                  <span v-text="person.fields.first_name"></span> <span v-text="person.fields.last_name"></span>
+               </h2>
+
+               <div class="dropdown pull-xs-right">
+                  <button class="btn btn-sm btn-drop" type="button" data-toggle="dropdown">▼</button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                     <button class="dropdown-item text-xs-right"
+                        @click="toggleEdit(person)">edit
+                     </button>
+                     <button class="dropdown-item text-xs-right text-danger"
+                        @click="deletePerson(person)">delete
+                     </button>
+                  </div>
+               </div>
+            </div>
+
+            <div class="card-block" v-show="!person.editing">
+               <dl class="row">
+                  <dt class="col-xs-4">dob</dt>
+                  <dd class="col-xs-8" v-text="person.fields.dob"></dd>
+
+                  <dt class="col-xs-4">zip</dt>
+                  <dd class="col-xs-8" v-text="person.fields.zip"></dd>
+               </dl>
+            </div>
+
+            <form @submit.prevent="updatePerson(person)" class="card-block" v-show="person.editing">
+               {{ update_person_form.as_vue }}
+               <button type="submit" class="btn btn-primary">save</button>
+               <button type="button" @click.prevent="cancelUpdate(person)" class="btn btn-link">cancel</button>
+            </form>
+         </div>
+      </div>
+   </div>
+
+{% endblock content %}

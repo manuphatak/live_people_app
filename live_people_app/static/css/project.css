@@ -1,38 +1,64 @@
-/* These styles are generated from project.scss. */
+@charset "UTF-8";
 
-.alert-debug {
-  color: black;
-  background-color: white;
-  border-color: #d6e9c6;
+.form-group label {
+  text-transform: lowercase;
 }
 
-.alert-error {
-  color: #b94a48;
-  background-color: #f2dede;
-  border-color: #eed3d7;
+.btn-add {
+  margin-bottom: .5em;
 }
 
-/* This is a fix for the bootstrap4 alpha release */
-@media (max-width: 47.9em) {
-  .navbar-nav .nav-item {
-    float: none;
-    width: 100%;
-    display: inline-block;
-  }
-
-  .navbar-nav .nav-item + .nav-item {
-    margin-left: 0;
-  }
-
-  .nav.navbar-nav.pull-xs-right {
-    float: none !important;
-  }
+.btn-drop {
+  visibility: hidden;
 }
 
-/* Display django-debug-toolbar.
-   See https://github.com/django-debug-toolbar/django-debug-toolbar/issues/742
-   and https://github.com/pydanny/cookiecutter-django/issues/317
-*/
+.card:hover .btn-drop {
+  visibility: visible;
+}
+
+.card-header h2 {
+  margin-bottom: 0;
+}
+
+.card-block .row {
+  margin-bottom: 0;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0;
+}
+
+.dropdown-menu {
+  min-width: 50px;
+}
+
+.connection {
+  font-size:        50%;
+  font-weight:      300;
+  background-color: #eeeff0;
+  color:            black;
+  border:           #818a91 solid 1px;
+}
+
+.connection:before {
+  content:       '⚫';
+  padding-right: .4em;
+}
+
+.connection.live:before {
+  color: #d9534f;
+}
+
+.connection.connecting:before {
+  color: #f0ad4e;
+}
+
+.connection.closed:before {
+  color: #818a91;
+}
+
+[v-cloak] { display: none; }
+
 [hidden][style="display: block;"] {
   display: block !important;
 }

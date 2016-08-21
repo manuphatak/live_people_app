@@ -13,7 +13,9 @@ from __future__ import absolute_import, unicode_literals
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (live_people_app/config/settings/common.py - 3 = live_people_app/)
+""":type : environ.Path"""
 APPS_DIR = ROOT_DIR.path('live_people_app')
+""":type : environ.Path"""
 
 env = environ.Env()
 
@@ -35,16 +37,13 @@ DJANGO_APPS = (
     'django.contrib.admin',
 )
 THIRD_PARTY_APPS = (
-    'crispy_forms',  # Form layouts
-    'allauth',  # registration
-    'allauth.account',  # registration
-    'allauth.socialaccount',  # registration
+    'channels',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     # custom users app
-    'live_people_app.users.apps.UsersConfig',
+    'live_people_app.people.apps.PeopleConfig',
     # Your stuff: custom apps go here
 )
 
@@ -78,7 +77,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
 FIXTURE_DIRS = (
-    str(APPS_DIR.path('fixtures')),
+    APPS_DIR('fixtures'),
 )
 
 # EMAIL CONFIGURATION
@@ -100,10 +99,9 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db('DATABASE_URL', default='postgres:///live_people_app'),
+    'default': env.db('DATABASE_URL'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
-
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -137,7 +135,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
         'DIRS': [
-            str(APPS_DIR.path('templates')),
+            APPS_DIR('templates'),
         ],
         'OPTIONS': {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
@@ -163,21 +161,17 @@ TEMPLATES = [
         },
     },
 ]
-
-# See: http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+STATIC_ROOT = ROOT_DIR('staticfiles')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    str(APPS_DIR.path('static')),
+    APPS_DIR('static'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -189,7 +183,7 @@ STATICFILES_FINDERS = (
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR('media'))
+MEDIA_ROOT = APPS_DIR('media')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -205,27 +199,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
-
-# Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'live_people_app.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'live_people_app.users.adapters.SocialAccountAdapter'
-
-# Custom user app defaults
-# Select the correct user model
-AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = 'users:redirect'
-LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
-
 
 # django-compressor
 # ------------------------------------------------------------------------------
@@ -234,5 +211,14 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
 
-
-# Your common stuff: Below this line define 3rd party library settings
+# CHANNELS
+# ------------------------------------------------------------------------------
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': ['{0}/{1}'.format(env('REDIS_URL'), 2)]
+        },
+        'ROUTING': 'config.routing.channel_routing'
+    }
+}
