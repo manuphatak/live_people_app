@@ -12,24 +12,19 @@ See it live!  https://live-people-app.herokuapp.com/
 &nbsp;
 
 * `vue.ModelForm` class providing vue integration with django's forms for validation and data cleaning.
-
-  see [live_people_app/utils/vue.py](live_people_app/utils/vue.py)
+  * see [live_people_app/utils/vue.py](live_people_app/utils/vue.py)
 
 * Management command that periodically resets the database and syncs & notifies connected clients of the update.
-
-  see [live_people_app/people/management/commands/populate.py](live_people_app/people/management/commands/populate.py)
-
+  * see [live_people_app/people/management/commands/populate.py](live_people_app/people/management/commands/populate.py)
+  
 * (Technical Jargon:) Custom websocket reply channel consumer that allows individual clients to request information from the server via websocket.
-
-  see [live_people_app/utils/consumers.py](live_people_app/utils/consumers.py#L76-L125)
+  * see [live_people_app/utils/consumers.py](live_people_app/utils/consumers.py#L76-L125)
   
 * Custom Reconnecting WebSocket object
-
-  see [live_people_app/static/js/project.js](live_people_app/static/js/project.js#L149-L221)
+  * see [live_people_app/static/js/project.js](live_people_app/static/js/project.js#L149-L221)
   
 * Vue.js integration
-
-  see [live_people_app/people/templates/people/home.html](live_people_app/people/templates/people/home.html)
+  * see [live_people_app/people/templates/people/home.html](live_people_app/people/templates/people/home.html)
 
 * Not TOTALLY ugly (it is).  I like this live icon: 
 
