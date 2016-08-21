@@ -116,7 +116,11 @@ function AppSocket() {
   }
 
   function handleMessage(event) {
-    return self.onmessage(JSON.parse(event.data))
+    const message = JSON.parse(event.data);
+    console.group('handling action=%s stream=%s', message.payload.action, message.stream);
+    const results = self.onmessage(message);
+    console.groupEnd();
+    return results;
   }
 
   function handleClose(event) {
