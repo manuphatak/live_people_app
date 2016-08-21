@@ -88,6 +88,8 @@ new Vue({
           return this._handleSyncAction(message.payload);
         case 'Person':
           return this._handlePersonAction(message.payload);
+        case 'Management':
+          return this._handleManagementAction(message.payload);
       }
     },
     _handleSyncAction: function(payload) {
@@ -111,6 +113,9 @@ new Vue({
         default:
           return console.error('unknown action=%s', payload.action);
       }
+    },
+    _handleManagementAction: function(payload) {
+      return payload.action === 'update' ? this.sendSyncAction() : null;
     },
     _handleSocketOpen: function() {
       this.setConnectionStatus(CONNECTION.OPENED);
