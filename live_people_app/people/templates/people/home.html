@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-   <h1>people management</h1>
+
    <div id="app" v-cloak>
+      <h1>
+         people
+
+         {% verbatim %}
+         <span :class="['tag tag-default connection', connection]">{{ connection }}</span> {% endverbatim %}
+      </h1>
       <form @submit.prevent="createPerson" class="form-inline">
          {{ new_person_form.as_vue }}
          <button class="btn btn-sm btn-outline-primary btn-add">add</button>
@@ -17,16 +23,18 @@
          >
             <div class="card-header clearfix">
                {% verbatim %}
-               <h2 class="pull-xs-left">{{ person.fields.first_name }} {{ person.fields.last_name }}</h2>
+               <h2 class="h3 pull-xs-left">{{ person.fields.first_name }} {{ person.fields.last_name }}</h2>
                {% endverbatim %}
 
                <div class="dropdown pull-xs-right">
-                  <button class="btn btn-sm btn-link dropdown-toggle" type="button" data-toggle="dropdown"></button>
+                  <button class="btn btn-sm btn-drop" type="button" data-toggle="dropdown">▼</button>
                   <div class="dropdown-menu dropdown-menu-right">
-                     <button class="btn btn-sm dropdown-item text-xs-right"
+                     <button class="dropdown-item text-xs-right"
+                        @click="toggleEdit(person)">edit
+                     </button>
+                     <button class="dropdown-item text-xs-right text-danger"
                         @click="deletePerson(person)">delete
                      </button>
-                     <button class="btn btn-sm dropdown-item text-xs-right" @click="toggleEdit(person)">edit</button>
                   </div>
                </div>
             </div>

@@ -8,6 +8,14 @@
   margin-bottom: .5em;
 }
 
+.btn-drop {
+  visibility: hidden;
+}
+
+.card:hover .btn-drop {
+  visibility: visible;
+}
+
 .card-header h2 {
   margin-bottom: 0;
 }
@@ -22,6 +30,31 @@
 
 .dropdown-menu {
   min-width: 50px;
+}
+
+.connection {
+  font-size:        50%;
+  font-weight:      300;
+  background-color: #eeeff0;
+  color:            black;
+  border:           #818a91 solid 1px;
+}
+
+.connection:before {
+  content:       '⚫';
+  padding-right: .4em;
+}
+
+.connection.live:before {
+  color: #d9534f;
+}
+
+.connection.connecting:before {
+  color: #f0ad4e;
+}
+
+.connection.closed:before {
+  color: #818a91;
 }
 
 [v-cloak] { display: none; }

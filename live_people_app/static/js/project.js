@@ -1,8 +1,15 @@
+var CONNECTION = {
+  OPENED: 'live',
+  CONNECTING: 'connecting',
+  CLOSED: 'closed',
+};
+
 new Vue({
   el: '#app',
   data: {
     people: [],
     newPerson: {},
+    connection: CONNECTION.CONNECTING,
   },
   init: function() {
     this.ws = new AppSocket();
@@ -48,6 +55,10 @@ new Vue({
     toggleEdit: function(person, force) {
       var value = force === undefined ? !person.editing : force;
       Vue.set(person, 'editing', value);
+    },
+    setConnectionStatus: function(status) {
+      this.$set('connection', status);
+      if (status === CONNECTION.OPENED) this.sendSyncAction();
     },
     _setPeople: function(people) {
       this.$set('people', people.map(function(person) {
@@ -102,10 +113,14 @@ new Vue({
       }
     },
     _handleSocketOpen: function() {
-      this.sendSyncAction();
+      this.setConnectionStatus(CONNECTION.OPENED);
     },
-    _handleSocketReconnectstart: function() {},
-    _handleSocketClose: function() {},
+    _handleSocketReconnectstart: function() {
+      this.setConnectionStatus(CONNECTION.CONNECTING);
+    },
+    _handleSocketClose: function() {
+      this.setConnectionStatus(CONNECTION.CLOSED);
+    },
     _handleSocketError: function() {},
   },
 
