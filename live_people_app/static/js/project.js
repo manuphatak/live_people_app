@@ -62,6 +62,7 @@ new Vue({
       if (status === CONNECTION.OPENED) this.sendSyncAction();
     },
     _setPeople: function(people) {
+      console.log("syncing people", people);
       this.$set('people', people.map(function(person) {
         person.fields.created = new Date(person.fields.created);
         return person;
@@ -121,7 +122,6 @@ new Vue({
       }
     },
     _handleNotificationAction: function(payload) {
-      console.log("payload", payload);
       var self = this;
       self.$set('notify', {
         action: payload.action,
