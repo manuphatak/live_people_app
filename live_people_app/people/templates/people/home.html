@@ -9,11 +9,11 @@
          <span :class="['tag tag-default connection', connection]" v-text="connection"></span>
       </h1>
 
-      <div class="alert alert-info alert-dismissible fade in" role="alert" v-if="notify">
+      <div :class="['alert alert-dismissible fade in', 'alert-'+notify.action]" role="alert" v-if="notify.show">
          <button type="button" class="close" @click="dismissNotification" aria-label="Close">
             <span aria-hidden="true">&times;</span>
          </button>
-         <strong>Database Reset!</strong> Your data is updated automatically!  Database intentionally wiped every few minutes.
+         <span v-html="notify.html"></span>
       </div>
 
       <form @submit.prevent="createPerson" class="form-inline">

@@ -16,6 +16,9 @@ class Consumer(object):
         self.pk = NotImplemented
         self.action = NotImplemented
         self.message = NotImplemented
+        self.kwargs = NotImplemented
+        self.data = NotImplemented
+        self.payload = NotImplemented
 
     @classmethod
     def encode(cls, stream, payload):
@@ -80,7 +83,7 @@ class ReplyChannelConsumer(Consumer):
     @classmethod
     def serialize_data(cls, instance, fields):
         fields = None if fields == ['__all__'] else fields
-        if isinstance(instance, QuerySet):
+        if isinstance(instance, (QuerySet, list)):
             data = serialize('json', instance, fields=fields)
             return json.loads(data)
 

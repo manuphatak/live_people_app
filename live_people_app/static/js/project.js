@@ -7,7 +7,7 @@ var CONNECTION = {
 new Vue({
   el: '#app',
   data: {
-    notify: false,
+    notify: {},
     people: [],
     newPerson: {},
     connection: CONNECTION.CONNECTING,
@@ -75,7 +75,7 @@ new Vue({
       this.ws.send('Sync', payload);
     },
     dismissNotification: function() {
-      this.$set('notify', false);
+      this.$set('notify', {});
     },
     _getPerson: function(payload) {
       const person = {
@@ -92,8 +92,10 @@ new Vue({
           return this._handleSyncAction(message.payload);
         case 'Person':
           return this._handlePersonAction(message.payload);
-        case 'Management':
-          return this._handleManagementAction(message.payload);
+        case 'Notification':
+          return this._handleNotificationAction(message.payload);
+        default:
+          return console.error('unknown stream=%s', message.stream);
       }
     },
     _handleSyncAction: function(payload) {
@@ -118,12 +120,15 @@ new Vue({
           return console.error('unknown action=%s', payload.action);
       }
     },
-    _handleManagementAction: function(payload) {
-      if (!payload.action === 'update') return;
-
+    _handleNotificationAction: function(payload) {
+      console.log("payload", payload);
       var self = this;
-      self.$set('notify', true);
-      setTimeout(function() {self.$set('notify', false);}, 60 * 1000);
+      self.$set('notify', {
+        action: payload.action,
+        html: payload.data.html,
+        show: true,
+      });
+      setTimeout(self.dismissNotification, payload.data.timeout * 1000);
 
       return this.sendSyncAction();
     },

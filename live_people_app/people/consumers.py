@@ -1,8 +1,9 @@
 # coding=utf-8
+import json
 import logging
 
-from channels.binding.websockets import WebsocketBinding
-from channels.generic.websockets import WebsocketDemultiplexer
+from channels import Group
+from channels.binding.websockets import WebsocketBinding, WebsocketDemultiplexer
 
 from .forms import PersonForm
 from .models import Person
@@ -64,3 +65,39 @@ class SyncConsumer(ReplyChannelConsumer):
 
     def list(self):
         return self.queryset
+
+    @classmethod
+    def broadcast(cls, action, data):
+        self = cls()
+        if action not in self.actions:
+            raise ValueError('Invalid Action.  Whitelisted actions=%s' % self.actions)
+        self.action = action
+        self.pk = None
+        self.data = data
+        self.payload = self.serialize(self.data)
+
+        assert self.stream is not None
+        message = cls.encode(self.stream, self.payload)
+        self.group_send(message)
+
+    def group_names(self, action):
+        return ['App']
+
+    def group_send(self, message):
+        for group_name in self.group_names(self.action):
+            group = Group(group_name)
+            group.send(message)
+
+
+def send_notification(action, html, timeout=60):
+    message = {
+        'stream': 'Notification',
+        'payload': {
+            'action': action,
+            'data': {
+                'html': html,
+                'timeout': timeout
+            },
+        },
+    }
+    Group('App').send({'text': json.dumps(message)})
