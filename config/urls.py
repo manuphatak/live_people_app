@@ -9,13 +9,7 @@ from django.views import defaults as default_views
 
 urlpatterns = [
     url(r'^', include('live_people_app.people.urls')),
-    # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, include(admin.site.urls)),
-
-    # User management
-    # url(r'^users/', include('live_people_app.users.urls', namespace='users')),
-    # Your stuff: custom urls includes go here
-
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

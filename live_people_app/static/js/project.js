@@ -17,7 +17,7 @@ new Vue({
   ready: function() {
     this.ws.onopen = this._handleSocketOpen;
     this.ws.onmessage = this._handleSocketMessage;
-    this.ws.onreconnectstart = this._handleSocketReconnectstart;
+    this.ws.onreconnectstart = this._handleSocketReconnectStart;
     this.ws.onclose = this._handleSocketClose;
     this.ws.onerror = this._handleSocketError;
     this.ws.open();
@@ -115,7 +115,7 @@ new Vue({
     _handleSocketOpen: function() {
       this.setConnectionStatus(CONNECTION.OPENED);
     },
-    _handleSocketReconnectstart: function() {
+    _handleSocketReconnectStart: function() {
       this.setConnectionStatus(CONNECTION.CONNECTING);
     },
     _handleSocketClose: function() {
@@ -199,23 +199,3 @@ function AppSocket() {
 
   function noop() {}
 }
-// $(function() {
-//   var ws = new AppSocket();
-//   ws.onopen = function(event) {
-//     console.log('onopen event', event);
-//   };
-//   ws.onclose = function(event) {
-//     console.log('onclose event', event);
-//   };
-//   ws.onerror = function(event) {
-//     console.log('onerror event', event);
-//   };
-//   ws.onmessage = function(event) {
-//     console.log('onmessage event', event);
-//   };
-//   ws.onreconnectstart = function(event) {
-//     console.log('onopen event', event);
-//   };
-//   ws.open();
-// });
-//

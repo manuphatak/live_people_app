@@ -8,7 +8,14 @@ from django.db.models import QuerySet
 
 class Consumer(object):
     stream = NotImplemented
-    actions = ()
+    actions = NotImplemented
+    fields = NotImplemented
+
+    def __init__(self):
+        self.user = NotImplemented
+        self.pk = NotImplemented
+        self.action = NotImplemented
+        self.message = NotImplemented
 
     @classmethod
     def encode(cls, stream, payload):
@@ -26,12 +33,14 @@ class Consumer(object):
         self.action, self.pk, self.data = self.deserialize(self.message)
         self.data = self.run_action(self.action, self.pk)
 
-        if not self.data: return self
+        if not self.data:
+            return self
 
         # OUTBOUND
         self.payload = self.serialize(self.data)
 
-        if self.payload == {}: return self
+        if self.payload == {}:
+            return self
 
         assert self.stream is not None
         message = cls.encode(self.stream, self.payload)
