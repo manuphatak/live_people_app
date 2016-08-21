@@ -35,3 +35,6 @@ redis~=2.10.0
 # channels
 channels~=0.17.2
 asgi-redis~=0.14.0
+
+# Factory
+factory_boy~=2.7.0
