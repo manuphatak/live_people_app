@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-from .models import Person
+from .forms import NewPersonForm
 
 
 def home(request):
-    context = {'people': Person.objects.all()}
+    context = {'new_person_form': NewPersonForm()}
     return render(request, 'people/home.html', context=context)

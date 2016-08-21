@@ -4,10 +4,8 @@
    <h1>people management</h1>
    <div id="app" v-cloak>
       <form @submit.prevent="createPerson" class="form-inline">
-         <input type="text" v-model="newPerson.first_name"> <input type="text" v-model="newPerson.last_name"> <input
-         type="text"
-         v-model="newPerson.zip"> <input type="date" v-model="newPerson.dob">
-         <button class="btn btn-sm btn-outline-primary">add</button>
+         {{ new_person_form.as_vue }}
+         <button class="btn btn-sm btn-outline-primary btn-add">add</button>
       </form>
 
 
