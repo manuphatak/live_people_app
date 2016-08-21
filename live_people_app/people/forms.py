@@ -1,5 +1,6 @@
 # coding=utf-8
 from django import forms
+from django.utils.html import strip_tags
 
 from .models import Person
 from ..utils import css
@@ -45,6 +46,18 @@ class PersonForm(forms.ModelForm):
             })
 
             bound_field.css_classes = css.include(bound_field.css_classes, self.group_classes)
+
+    def clean_dob(self):
+        return strip_tags(self.cleaned_data['dob'])
+
+    def clean_first_name(self):
+        return strip_tags(self.cleaned_data['first_name'])
+
+    def clean_last_name(self):
+        return strip_tags(self.cleaned_data['last_name'])
+
+    def clean_zip(self):
+        return strip_tags(self.cleaned_data['zip'])
 
 
 class NewPersonForm(PersonForm):
