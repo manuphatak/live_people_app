@@ -24,6 +24,13 @@ new Vue({
       console.log("person", person);
       this.people.push(person);
     },
+    deletePerson: function(person) {
+      this.sendPersonAction(person.pk, 'delete');
+    },
+    toggleEdit: function(person, force) {
+      var value = force === undefined ? !person.editing : force;
+      Vue.set(person, 'editing', value);
+    },
     _setPeople: function(people) {
       this.$set('people', people.map(function(person) {
         person.fields.created = new Date(person.fields.created);

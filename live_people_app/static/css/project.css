@@ -8,6 +8,22 @@
   margin-bottom: .5em;
 }
 
+.card-header h2 {
+  margin-bottom: 0;
+}
+
+.card-block .row {
+  margin-bottom: 0;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0;
+}
+
+.dropdown-menu {
+  min-width: 50px;
+}
+
 [v-cloak] { display: none; }
 
 [hidden][style="display: block;"] {
