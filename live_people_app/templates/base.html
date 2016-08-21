@@ -1,13 +1,15 @@
 {% load staticfiles i18n %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-   <meta charset="utf-8">
-   <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <meta charset="UTF-8">
+   <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
    <title>{% block title %}live people app{% endblock title %}</title>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="description" content="">
-   <meta name="author" content="">
+   <meta name="description" content="Live people management with django channels and vue.js">
+   <meta name="author" content="Manu Phatak <bionikspoon@gmail.com>">
 
    <!--[if lt IE 9]><script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -19,15 +21,10 @@
          crossorigin="anonymous"
       >
       <link href="{% static 'css/project.css' %}" rel="stylesheet">
-
-   {% endblock %}
-
+   {% endblock css %}
 </head>
-
 <body>
-
 <div class="container">
-
    {% if messages %}
       {% for message in messages %}
          <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
@@ -37,8 +34,7 @@
    {% block content %}
       <p>Use this document as a way to quick start any new project.</p>
    {% endblock content %}
-
-</div> <!-- /container -->
+</div>
 
 {% block modal %}{% endblock modal %}
 
@@ -59,10 +55,7 @@
       crossorigin="anonymous"
    ></script>
    <script src="https://cdn.jsdelivr.net/vue/1.0.26/vue.min.js"></script>
-
    <script src="{% static 'js/project.js' %}"></script>
-
-
 {% endblock javascript %}
 </body>
 </html>
