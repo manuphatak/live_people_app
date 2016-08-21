@@ -8,6 +8,14 @@
 
          <span :class="['tag tag-default connection', connection]" v-text="connection"></span>
       </h1>
+
+      <div class="alert alert-info alert-dismissible fade in" role="alert" v-if="notify">
+         <button type="button" class="close" @click="dismissNotification" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+         </button>
+         <strong>Database Reset!</strong> No worries, your data is updated automatically!
+      </div>
+
       <form @submit.prevent="createPerson" class="form-inline">
          {{ new_person_form.as_vue }}
          <button class="btn btn-sm btn-outline-primary btn-add">add</button>

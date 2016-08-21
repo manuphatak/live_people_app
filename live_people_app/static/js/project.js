@@ -7,6 +7,7 @@ var CONNECTION = {
 new Vue({
   el: '#app',
   data: {
+    notify: false,
     people: [],
     newPerson: {},
     connection: CONNECTION.CONNECTING,
@@ -73,6 +74,9 @@ new Vue({
       var payload = pk ? { pk: pk, action: 'details' } : { action: 'list' };
       this.ws.send('Sync', payload);
     },
+    dismissNotification: function() {
+      this.$set('notify', false);
+    },
     _getPerson: function(payload) {
       const person = {
         pk: payload.pk,
@@ -115,7 +119,13 @@ new Vue({
       }
     },
     _handleManagementAction: function(payload) {
-      return payload.action === 'update' ? this.sendSyncAction() : null;
+      if (!payload.action === 'update') return;
+
+      var self = this;
+      self.$set('notify', true);
+      setTimeout(function() {self.$set('notify', false);}, 60 * 1000);
+
+      return this.sendSyncAction();
     },
     _handleSocketOpen: function() {
       this.setConnectionStatus(CONNECTION.OPENED);
