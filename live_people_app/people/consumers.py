@@ -40,6 +40,15 @@ class PersonBinding(WebsocketBinding):
         else:
             logger.error('person not created. data invalid data=%s', data)
 
+    def update(self, pk, data):
+        instance = self.model.objects.get(pk=pk)
+        f = PersonForm(data, instance=instance)
+        if f.is_valid():
+            f.save()
+            logger.debug('person updated person=%r', f.instance)
+        else:
+            logger.error('person not updated. data invalid data=%s', data)
+
 
 class SyncConsumer(ReplyChannelConsumer):
     model = Person

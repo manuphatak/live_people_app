@@ -53,3 +53,10 @@ class NewPersonForm(PersonForm):
 
     class Meta(PersonForm.Meta):
         pass
+
+
+class UpdatePersonForm(PersonForm):
+    vue_model = 'person.fields'
+
+    class Meta(PersonForm.Meta):
+        pass

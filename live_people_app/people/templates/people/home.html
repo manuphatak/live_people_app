@@ -30,7 +30,8 @@
                   </div>
                </div>
             </div>
-            <div class="card-block">
+
+            <div class="card-block" v-show="!person.editing">
                {% verbatim %}
                <dl class="row">
                   <dt class="col-xs-4">dob</dt>
@@ -38,14 +39,15 @@
 
                   <dt class="col-xs-4">zip</dt>
                   <dd class="col-xs-8">{{ person.fields.zip }}</dd>
-
-
-                  <dt class="col-xs-4">editing</dt>
-                  <dd class="col-xs-8">{{ person.editing}}</dd>
-
                </dl>
                {% endverbatim %}
             </div>
+
+            <form @submit.prevent="updatePerson(person)" class="card-block" v-show="person.editing">
+               {{ update_person_form.as_vue }}
+               <button type="submit" class="btn btn-primary">save</button>
+               <button type="button" @click.prevent="cancelUpdate(person)" class="btn btn-link">cancel</button>
+            </form>
          </div>
       </div>
    </div>

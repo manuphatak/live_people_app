@@ -21,13 +21,27 @@ new Vue({
       this.newPerson = {};
     },
     _createPerson: function(person) {
-      console.log("person", person);
+      console.log("creating person", person);
       this.people.push(person);
+    },
+    updatePerson: function(person) {
+      this.sendPersonAction(person.pk, 'update', person.fields);
+      this.toggleEdit(person, false)
+    },
+    _updatePerson: function(person) {
+      console.log("updating person", person);
+      var index = this.people.findIndex(function(p) {return p.pk === person.pk;});
+      this.people.$set(index, person);
+    },
+    cancelUpdate: function(person) {
+      this.sendSyncAction(person.pk);
+      this.toggleEdit(person, false);
     },
     deletePerson: function(person) {
       this.sendPersonAction(person.pk, 'delete');
     },
     _deletePerson: function(person) {
+      console.log("deleting person", person);
       var target = this.people.find(function(p) {return p.pk === person.pk;});
       this.people.$remove(target);
     },
@@ -43,6 +57,10 @@ new Vue({
     },
     sendPersonAction: function(pk, action, data) {
       this.ws.send('Person', { pk: pk, action: action, data: data });
+    },
+    sendSyncAction: function(pk) {
+      var payload = pk ? { pk: pk, action: 'details' } : { action: 'list' };
+      this.ws.send('Sync', payload);
     },
     _getPerson: function(payload) {
       const person = {
@@ -65,6 +83,8 @@ new Vue({
       switch (payload.action) {
         case 'list':
           return this._setPeople(payload.data);
+        case 'details':
+          return this._updatePerson(this._getPerson(payload));
         default:
           return console.error('unknown action=%s', payload.action);
       }
@@ -73,6 +93,8 @@ new Vue({
       switch (payload.action) {
         case 'create':
           return this._createPerson(this._getPerson(payload));
+        case 'update':
+          return this._updatePerson(this._getPerson(payload));
         case 'delete':
           return this._deletePerson(this._getPerson(payload));
         default:
@@ -80,7 +102,7 @@ new Vue({
       }
     },
     _handleSocketOpen: function() {
-      this.ws.send('Sync', { action: 'list' })
+      this.sendSyncAction();
     },
     _handleSocketReconnectstart: function() {},
     _handleSocketClose: function() {},
