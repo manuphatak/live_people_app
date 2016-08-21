@@ -15,9 +15,9 @@ def join(*classes):
     return ' '.join(all_classes)
 
 
-def include(func, extra_extra_classes):
+def include(func, classes):
     @wraps(func)
     def wrapper(extra_classes=None, extra_extra_classes=None):
         return func(join(extra_classes, extra_extra_classes))
 
-    return partial(wrapper, extra_extra_classes=extra_extra_classes)
+    return partial(wrapper, extra_extra_classes=classes)
