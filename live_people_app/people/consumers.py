@@ -37,6 +37,8 @@ class PersonBinding(WebsocketBinding):
         if f.is_valid():
             f.save()
             logger.debug('person created person=%r', f.instance)
+        else:
+            logger.error('person not created. data invalid data=%s', data)
 
 
 class SyncConsumer(ReplyChannelConsumer):
