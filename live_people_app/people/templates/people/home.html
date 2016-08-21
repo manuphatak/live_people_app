@@ -2,8 +2,35 @@
 
 {% block content %}
    <h1>people management</h1>
-   {% for person in people %}
-      <div>{{ person.name }} {{ person.dob }} {{ person.zip }}</div>
-   {% endfor %}
+   <div id="app" v-cloak>
+      <form @submit.prevent="createPerson" class="form-inline">
+         <input type="text" v-model="newPerson.first_name"> <input type="text" v-model="newPerson.last_name"> <input
+         type="text"
+         v-model="newPerson.zip"> <input type="date" v-model="newPerson.dob">
+         <button class="btn btn-sm btn-outline-primary">add</button>
+      </form>
+
+
+      <div class="card-columns">
+         <div class="card"
+            v-for="person in people | orderBy '-fields.created' 'fields.last_name' 'fields.first_name'"
+            track-by="pk">
+            {% verbatim %}
+            <h2 class="card-header">{{ person.fields.first_name }} {{ person.fields.last_name }}</h2>
+            {% endverbatim %}
+            <div class="card-block">
+               {% verbatim %}
+               <dl class="row">
+                  <dt class="col-xs-4">dob</dt>
+                  <dd class="col-xs-8">{{ person.fields.dob }}</dd>
+
+                  <dt class="col-xs-4">zip</dt>
+                  <dd class="col-xs-8">{{ person.fields.zip }}</dd>
+               </dl>
+               {% endverbatim %}
+            </div>
+         </div>
+      </div>
+   </div>
 
 {% endblock content %}
