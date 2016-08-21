@@ -1,9 +1,14 @@
 # coding=utf-8
+import logging
+
 from channels.binding.websockets import WebsocketBinding
 from channels.generic.websockets import WebsocketDemultiplexer
 
+from .forms import PersonForm
 from .models import Person
 from ..utils.consumers import ReplyChannelConsumer
+
+logger = logging.getLogger(__name__)
 
 
 class AppDemultiplexer(WebsocketDemultiplexer):
@@ -26,6 +31,23 @@ class PersonBinding(WebsocketBinding):
 
     def has_permission(self, user, action, pk):
         return True
+
+    def create(self, data):
+        f = PersonForm(data)
+        if f.is_valid():
+            f.save()
+            logger.debug('person created person=%r', f.instance)
+        else:
+            logger.error('person not created. data invalid data=%s', data)
+
+    def update(self, pk, data):
+        instance = self.model.objects.get(pk=pk)
+        f = PersonForm(data, instance=instance)
+        if f.is_valid():
+            f.save()
+            logger.debug('person updated person=%r', f.instance)
+        else:
+            logger.error('person not updated. data invalid data=%s', data)
 
 
 class SyncConsumer(ReplyChannelConsumer):
