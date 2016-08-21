@@ -13,7 +13,7 @@ See it live!  https://live-people-app.herokuapp.com/
 * Vue integration with django's templates and forms for validation and data cleaning.
 * Management command that periodically resets the database and syncs & notifies connected clients of the update.
 * (Technical Jargon:) Custom websocket reply channel consumer that allows individual clients to request information from the server via websocket.
-* Not TOTALLY ugly. I like this live icon: 
+* Not TOTALLY ugly (it is).  I like this live icon: 
   ![live](live.png)
 
 
