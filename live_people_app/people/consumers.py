@@ -27,7 +27,7 @@ class PersonBinding(WebsocketBinding):
     model = Person
     fields = ['first_name', 'last_name', 'dob', 'zip', 'created']
 
-    def group_names(self, instance, action):
+    def group_names(self, instance, action=None):
         return ['App']
 
     def has_permission(self, user, action, pk):
