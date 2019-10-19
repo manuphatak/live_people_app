@@ -41,7 +41,7 @@
 }
 
 .connection:before {
-  content:       '⚫';
+  content:       '●';
   padding-right: .4em;
 }
 
